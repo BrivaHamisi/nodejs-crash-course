@@ -1,9 +1,21 @@
-let http = require('http');
+// let http = require('http');
 
-http.createServer((req, res) => {
-    res.writeHead(200, {'Content-Type': 'text/plain'}); //Set the response HTTP header with HTTP status and content type
-    res.end('Hello World\n'); //Send the response body "Hello World" and close the connection
-}).listen(3000, '127.0.0.1'); //The server listens on port 3000 and IP address
-console.log('Server running at http://127.0.0.1:3000/'); //Prints a message to the console indicating that the server is running
+// http.createServer((req, res) => {
+//     res.writeHead(200, {'Content-Type': 'text/plain'}); //Set the response HTTP header with HTTP status and content type
+//     res.end('Hello World\n'); //Send the response body "Hello World" and close the connection
+// }).listen(3000, '127.0.0.1'); //The server listens on port 3000 and IP address
+// console.log('Server running at http://127.0.0.1:3000/'); //Prints a message to the console indicating that the server is running
 // This is a simple HTTP server that responds with "Hello World" to any request.    
 // The server listens on port 3000 and responds with a 200 OK status code and a plain text content type.    
+
+
+
+const http = require('http');
+
+http.createServer((req, res) => {
+    const { method, url } = req; // Destructure method and url from the request object
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end(`<h1>Hello World</h1><p>Request Method: ${method}</p><p>Request URL: ${url}</p>`);
+}).listen(3000);
+
+console.log('Server running at http://localhost:3000/');    // This server responds with "Hello World" and displays the request method and URL.
