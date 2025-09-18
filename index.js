@@ -4,6 +4,25 @@ let http = require('http');
 const PORT = process.env.PORT || 3005;
 const ENV = process.env.NODE_ENV || 'developer';
 
+// In-memory data store
+let movies = [
+  { id: 1, title: "Titanic", year: 1997, genre: "Romance", rating: 7.9 },
+  { id: 2, title: "Avatar", year: 2009, genre: "Sci-Fi", rating: 7.8 },
+  { id: 3, title: "Shrek", year: 2001, genre: "Animation", rating: 7.9 },
+  { id: 4, title: "The Matrix", year: 1999, genre: "Sci-Fi", rating: 8.7 },
+];
+
+/*
+ *  REST API Routes
+ *  - GET: http://localhost:3001/api/movies (get all)
+ *  - GET: http://localhost:3001/api/movies/{id} (get by ID)
+ *  - GET: http://localhost:3001/api/movies?year=1997 (filter by query)
+ *  - POST: http://localhost:3001/api/movies (create)
+ *  - PUT: http://localhost:3001/api/movies (update)
+ *  - DELETE: http://localhost:3001/api/movies (delete)
+ */
+
+
 http.createServer((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/plain'}); //Set the response HTTP header with HTTP status and content type
     res.end('Hello World\n'); //Send the response body "Hello World" and close the connection
