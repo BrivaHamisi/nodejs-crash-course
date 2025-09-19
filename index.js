@@ -29,6 +29,20 @@ http.createServer((req, res) => {
     const { pathname} = new URL(req.url, baseURL); // Parse the request URL using the WHATWG URL API
 
     console.log("Request", req.method, pathname);
+    switch (req.method) {
+        case 'GET':
+            if (pathname === '/api/movies') {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(movies)); // Respond with the list of movies as JSON
+                break;
+            }
+        
+
+        default:
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end('Not Found');
+            break;
+    }
 }).listen(PORT, ()=>{
     console.log(`Server running at http://localhost:${PORT}/ in ${ENV} mode`); //Prints a message to the console indicating that the server is running
 }); //The server listens on port 3000 and IP address
