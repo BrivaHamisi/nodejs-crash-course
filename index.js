@@ -1,5 +1,6 @@
 require('dotenv').config(); //Load environment variables from a .env file into process.env
 let http = require('http');
+const { URL } = require('url');
 
 const PORT = process.env.PORT || 3005;
 const ENV = process.env.NODE_ENV || 'developer';
@@ -24,8 +25,10 @@ let movies = [
 
 
 http.createServer((req, res) => {
-    res.writeHead(200, {'Content-Type': 'text/plain'}); //Set the response HTTP header with HTTP status and content type
-    res.end('Hello World\n'); //Send the response body "Hello World" and close the connection
+    const baseURL = `http://${req.headers.host}/`; // Construct the base URL from the request headers
+    const { pathname} = new URL(req.url, baseURL); // Parse the request URL using the WHATWG URL API
+
+    console.log("Request", req.method, pathname);
 }).listen(PORT, ()=>{
     console.log(`Server running at http://localhost:${PORT}/ in ${ENV} mode`); //Prints a message to the console indicating that the server is running
 }); //The server listens on port 3000 and IP address
