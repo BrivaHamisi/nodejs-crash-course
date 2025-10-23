@@ -52,6 +52,31 @@ http.createServer((req, res) => {
                 break;
                 
             }
+
+            case 'POST':
+                if (pathname === '/api/movies') {
+                    let body = '';
+
+                    req.on('data', chunk => {
+                        body += chunk.toString(); // Convert Buffer to string
+                    })
+
+                    req.on('end', () => {
+                        try{
+                            const newMovie = JSON.parse(body);
+                            newMovie.id = movies.length ? movies[movies.length - 1].id + 1 : 1; // Assign a new ID
+                            movies.push(newMovie);
+
+                            res.writeHead(201, { 'Content-Type': 'application/json' });
+                            res.end(JSON.stringify(newMovie));
+
+                        } catch (error) {
+                            res.writeHead(400, { 'Content-Type': 'application/json' });
+                            res.end(JSON.stringify({ error: 'Invalid JSON' }));
+                        }
+                    });
+                    break;
+                }
         
 
         default:
