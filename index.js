@@ -40,20 +40,23 @@ http.createServer((req, res) => {
             if (pathname.startsWith('/api/movies/')) {
                 const id = parseInt(pathname.split('/')[3], 10);
                 const movieIndex = movies.findIndex((movie) => movie.id === id);
-                if (movieIndex !== -1) {
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify(movie)); // Respond with the movie details as JSON
-                } else {
+
+                if (movieIndex === -1) {
                     res.writeHead(404, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ message: 'Movie not found' }));
+                    break;
                 }
+
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify(movies[movieIndex]));
                 break;
+                
             }
         
 
         default:
             res.writeHead(404, { 'Content-Type': 'application/json' });
-            res.end('Not Found');
+            res.end(JSON.stringify({ error: 'Not found' }));
             break;
     }
 }).listen(PORT, ()=>{
